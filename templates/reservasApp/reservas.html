@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reservaciones</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="alert alert-info display-1 text-center mb-5">
+            Lista de Reservaciones
+        </div>
+        <a href="{% url 'landing_page' %}" class="btn btn-danger mb-4">
+            <i class="bi bi-caret-left-fill"></i>
+        </a>
+        <table class="table">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Asistentes</th>
+                    <th scope="col">Observacion</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if reservas %}
+                {% for res in reservas %}
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal{{res.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmacion</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¡Estas seguro que deseas eliminar la reserva de {{res.nombre}}?
+                            </div>
+                            <div class="modal-footer">
+                                <button href="#" type="button" class="btn btn-success"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <a href="{% url 'eliminar_reserva' res.id %}" type="button"
+                                    class="btn btn-danger">Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <tr>
+                    <th scope="row">{{res.id}}</th>
+                    <td>{{res.nombre}}</td>
+                    <td>{{res.telefono}}</td>
+                    <td>{{res.fecha}}</td>
+                    <td>{{res.hora}}</td>
+                    <td>{{res.estado}}</td>
+                    <td>{{res.personas}}</td>
+                    <td>{{res.observacion}}</td>
+                    <td>
+                        <a href="{% url 'editar_reserva' res.id %}" class="btn btn-success"><i
+                                class="bi bi-pencil-fill"></i></a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{res.id}}">
+                            <i
+                                class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="12" class="text-center">No hay reservaciones</td>
+                </tr>
+
+                {% endif %}
+
+            </tbody>
+        </table>
+        <div class="container offset-2 mt-5"><a href="{% url 'crear_reserva' %}" class="btn btn-primary col-8">Registrar
+                Reservacion</a></div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
